@@ -25,7 +25,7 @@ magneticButtons.forEach((button) => {
 });
 
 /* =========================
-   PROJECT MODAL (NEW FEATURE)
+   PROJECT MODAL
 ========================= */
 
 const modal = document.getElementById('project-modal');

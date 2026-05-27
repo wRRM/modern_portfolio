@@ -54,7 +54,7 @@ function Dust(
 }
 
 /* =========================
-   RETINA CANVAS SETUP (NEW)
+   RETINA CANVAS SETUP
 ========================= */
 
 function setupCanvas(canvasElement, ctx) {
@@ -144,7 +144,7 @@ canvasElements.forEach((canvasElement) => {
 });
 
 /* =========================
-   RESIZE FIX (RETINA SAFE)
+   RESIZE FIX
 ========================= */
 
 window.addEventListener('resize', () => {

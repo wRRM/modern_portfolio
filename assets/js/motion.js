@@ -13,7 +13,7 @@ function updateScrollVelocity() {
   lastScrollY = currentY;
 }
 
-/* smoothing (inertia feel) */
+/* smoothing */
 function smooth() {
   smoothVelocity += (scrollVelocity - smoothVelocity) * 0.08;
 }

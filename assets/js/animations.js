@@ -25,7 +25,6 @@ function updateTimelineProgress() {
   const rect = timeline.getBoundingClientRect();
   const windowHeight = window.innerHeight;
 
-  // 🔥 tighten the active scroll zone so it doesn't start too early / end too late
   const start = windowHeight * 0.85;
   const end = -rect.height * 0.15;
 

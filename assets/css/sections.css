@@ -273,7 +273,7 @@
 
 }
 
-/* CENTER LINE (STATIC TRACK) */
+/* CENTER LINE */
 
 .timeline::before {
 
@@ -297,7 +297,7 @@
 
 }
 
-/* PROGRESS LINE (FIXED ANIMATION) */
+/* PROGRESS LINE */
 
 .timeline-progress {
   position: absolute;
@@ -369,7 +369,7 @@
 
 }
 
-/* ICON (FORCED ABOVE LINE) */
+/* ICON */
 
 .timeline-icon {
 
@@ -396,7 +396,7 @@
 
   box-shadow: 0 0 25px rgba(59,130,246,0.18);
 
-  z-index: 10; /* ABOVE progress line */
+  z-index: 10;
 
 }
 
