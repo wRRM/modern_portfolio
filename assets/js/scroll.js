@@ -4,29 +4,43 @@ window.scrollModule = (() => {
      FADE SECTIONS
   ========================= */
 
-  const sections =
-    document.querySelectorAll('.fade-section');
-
   const observer =
-    new IntersectionObserver((entries) => {
+    new IntersectionObserver(
+      (entries) => {
 
-      entries.forEach((entry) => {
+        entries.forEach((entry) => {
 
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-        }
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add(
+              'show'
+            );
+
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.15
+      }
+    );
+
+  function observeSections() {
+
+    document
+      .querySelectorAll('.fade-section')
+      .forEach((section) => {
+
+        observer.observe(section);
 
       });
 
-    }, {
-      threshold: 0.15
-    });
+  }
 
   function init() {
 
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
+    observeSections();
 
   }
 
@@ -40,54 +54,94 @@ window.scrollModule = (() => {
    SKILL CARD GLOW
 ========================= */
 
-const skillCards = document.querySelectorAll('.skill-card');
-
 function updateSkillCards() {
 
-  const trigger = window.innerHeight * 0.75;
+  const trigger =
+    window.innerHeight * 0.75;
+
+  const skillCards =
+    document.querySelectorAll(
+      '.skill-card'
+    );
 
   skillCards.forEach((card) => {
 
-    const rect = card.getBoundingClientRect();
+    const rect =
+      card.getBoundingClientRect();
 
     if (rect.top <= trigger) {
-      card.classList.add('active');
+
+      card.classList.add(
+        'active'
+      );
+
     } else {
-      card.classList.remove('active');
+
+      card.classList.remove(
+        'active'
+      );
+
     }
 
   });
 
 }
-
-window.addEventListener('scroll', updateSkillCards);
-window.addEventListener('load', updateSkillCards);
 
 /* =========================
    PROJECT CARD GLOW
 ========================= */
 
-const projectCards = document.querySelectorAll(
-  '.featured-project, .card'
-);
-
 function updateProjectCards() {
 
-  const trigger = window.innerHeight * 0.75;
+  const trigger =
+    window.innerHeight * 0.75;
+
+  const projectCards =
+    document.querySelectorAll(
+      '.featured-project, .card'
+    );
 
   projectCards.forEach((card) => {
 
-    const rect = card.getBoundingClientRect();
+    const rect =
+      card.getBoundingClientRect();
 
     if (rect.top <= trigger) {
-      card.classList.add('active');
+
+      card.classList.add(
+        'active'
+      );
+
     } else {
-      card.classList.remove('active');
+
+      card.classList.remove(
+        'active'
+      );
+
     }
 
   });
 
 }
 
-window.addEventListener('scroll', updateProjectCards);
-window.addEventListener('load', updateProjectCards);
+/* =========================
+   UPDATE
+========================= */
+
+function updateScrollEffects() {
+
+  updateSkillCards();
+
+  updateProjectCards();
+
+}
+
+window.addEventListener(
+  'scroll',
+  updateScrollEffects
+);
+
+window.addEventListener(
+  'load',
+  updateScrollEffects
+);

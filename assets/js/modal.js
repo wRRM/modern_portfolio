@@ -1,59 +1,104 @@
 window.modalModule = (() => {
 
   /* =========================
+     MODAL ELEMENTS
+  ========================= */
+
+  const modal =
+    document.getElementById(
+      'project-modal'
+    );
+
+  const modalTitle =
+    document.getElementById(
+      'modal-title'
+    );
+
+  const modalDesc =
+    document.getElementById(
+      'modal-desc'
+    );
+
+  const closeModal =
+    document.getElementById(
+      'close-modal'
+    );
+
+  /* =========================
      MAGNETIC BUTTONS
   ========================= */
 
-  const magneticButtons =
-    document.querySelectorAll('.glass-button');
+  function initMagneticButtons() {
+
+    document
+      .querySelectorAll('.glass-button')
+      .forEach((button) => {
+
+        button.addEventListener(
+          'mousemove',
+          (e) => {
+
+            const rect =
+              button.getBoundingClientRect();
+
+            const x =
+              e.clientX -
+              rect.left -
+              rect.width / 2;
+
+            const y =
+              e.clientY -
+              rect.top -
+              rect.height / 2;
+
+            button.style.transform =
+              `translate(${x * 0.18}px, ${y * 0.18}px)`;
+
+          }
+        );
+
+        button.addEventListener(
+          'mouseleave',
+          () => {
+
+            button.style.transform =
+              'translate(0px, 0px)';
+
+          }
+        );
+
+      });
+
+  }
 
   /* =========================
      MODAL
   ========================= */
 
-  const modal =
-    document.getElementById('project-modal');
+  function openModal(
+    title,
+    description
+  ) {
 
-  const modalTitle =
-    document.getElementById('modal-title');
+    if (!modal) return;
 
-  const modalDesc =
-    document.getElementById('modal-desc');
+    modalTitle.textContent =
+      title;
 
-  const closeModal =
-    document.getElementById('close-modal');
+    modalDesc.textContent =
+      description;
 
-  const projectCards =
-    document.querySelectorAll('.project-card');
+    modal.classList.remove(
+      'hidden'
+    );
 
-  function initMagneticButtons() {
+  }
 
-    magneticButtons.forEach((button) => {
+  function closeCurrentModal() {
 
-      button.addEventListener('mousemove', (e) => {
-
-        const rect =
-          button.getBoundingClientRect();
-
-        const x =
-          e.clientX - rect.left - rect.width / 2;
-
-        const y =
-          e.clientY - rect.top - rect.height / 2;
-
-        button.style.transform =
-          `translate(${x * 0.18}px, ${y * 0.18}px)`;
-
-      });
-
-      button.addEventListener('mouseleave', () => {
-
-        button.style.transform =
-          'translate(0px, 0px)';
-
-      });
-
-    });
+    modal?.classList.add(
+      'hidden'
+    );
 
   }
 
@@ -61,37 +106,66 @@ window.modalModule = (() => {
 
     if (!modal) return;
 
-    projectCards.forEach((card) => {
+    document.addEventListener(
+      'click',
+      (e) => {
 
-      card.addEventListener('click', () => {
+        const card =
+          e.target.closest(
+            '.project-card'
+          );
 
-        modalTitle.textContent =
-          card.dataset.title;
+        if (!card) return;
 
-        modalDesc.textContent =
-          card.dataset.desc;
+        openModal(
+          card.dataset.title,
+          card.dataset.desc
+        );
 
-        modal.classList.remove('hidden');
-
-      });
-
-    });
-
-    closeModal?.addEventListener('click', () => {
-
-      modal.classList.add('hidden');
-
-    });
-
-    modal.addEventListener('click', (e) => {
-
-      if (e.target === modal) {
-        modal.classList.add('hidden');
       }
+    );
 
-    });
+    closeModal?.addEventListener(
+      'click',
+      closeCurrentModal
+    );
+
+    modal.addEventListener(
+      'click',
+      (e) => {
+
+        if (e.target === modal) {
+
+          closeCurrentModal();
+
+        }
+
+      }
+    );
+
+    document.addEventListener(
+      'keydown',
+      (e) => {
+
+        if (
+          e.key === 'Escape' &&
+          !modal.classList.contains(
+            'hidden'
+          )
+        ) {
+
+          closeCurrentModal();
+
+        }
+
+      }
+    );
 
   }
+
+  /* =========================
+     INIT
+  ========================= */
 
   function init() {
 

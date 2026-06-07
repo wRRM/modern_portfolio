@@ -1,28 +1,67 @@
 window.skillsModule = (() => {
 
-  const skillSection =
-    document.querySelector('.skills-grid');
+  let observer;
 
-  const skillObserver =
-    new IntersectionObserver((entries) => {
+  /* =========================
+     OBSERVER
+  ========================= */
 
-      entries.forEach((entry) => {
+  function createObserver() {
 
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
+    observer =
+      new IntersectionObserver(
+        (entries) => {
+
+          entries.forEach((entry) => {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add(
+                'show'
+              );
+
+            }
+
+          });
+
+        },
+        {
+          threshold: 0.3
         }
+      );
 
-      });
+  }
 
-    }, {
-      threshold: 0.3
-    });
+  /* =========================
+     OBSERVE
+  ========================= */
+
+  function observeSkillsGrid() {
+
+    const skillSection =
+      document.querySelector(
+        '.skills-grid'
+      );
+
+    if (!skillSection) {
+      return;
+    }
+
+    observer.observe(
+      skillSection
+    );
+
+  }
+
+  /* =========================
+     INIT
+  ========================= */
 
   function init() {
 
-    if (skillSection) {
-      skillObserver.observe(skillSection);
-    }
+    createObserver();
+
+    observeSkillsGrid();
 
   }
 

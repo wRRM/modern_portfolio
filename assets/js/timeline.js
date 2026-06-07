@@ -3,27 +3,31 @@ window.timelineModule = (() => {
   let timeline;
   let progress;
 
-  const timelineItems =
-    document.querySelectorAll('.timeline-item');
-
   /* =========================
      ITEM OBSERVER
   ========================= */
 
   const timelineObserver =
-    new IntersectionObserver((entries) => {
+    new IntersectionObserver(
+      (entries) => {
 
-      entries.forEach((entry) => {
+        entries.forEach((entry) => {
 
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-        }
+          if (entry.isIntersecting) {
 
-      });
+            entry.target.classList.add(
+              'show'
+            );
 
-    }, {
-      threshold: 0.2
-    });
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.2
+      }
+    );
 
   /* =========================
      PROGRESS LINE
@@ -31,7 +35,9 @@ window.timelineModule = (() => {
 
   function updateTimelineProgress() {
 
-    if (!timeline || !progress) return;
+    if (!timeline || !progress) {
+      return;
+    }
 
     const rect =
       timeline.getBoundingClientRect();
@@ -46,10 +52,14 @@ window.timelineModule = (() => {
       -rect.height * 0.15;
 
     const percent =
-      (start - rect.top) / (start - end);
+      (start - rect.top) /
+      (start - end);
 
     const clamped =
-      Math.max(0, Math.min(percent, 1));
+      Math.max(
+        0,
+        Math.min(percent, 1)
+      );
 
     progress.style.transform =
       `translateX(-50%) scaleY(${clamped})`;
@@ -65,29 +75,65 @@ window.timelineModule = (() => {
     const trigger =
       window.innerHeight * 0.65;
 
-    timelineItems.forEach((card) => {
+    const timelineItems =
+      document.querySelectorAll(
+        '.timeline-item'
+      );
+
+    timelineItems.forEach((item) => {
 
       const rect =
-        card.getBoundingClientRect();
+        item.getBoundingClientRect();
 
-      const inner =
-        card.querySelector('.timeline-card');
+      const card =
+        item.querySelector(
+          '.timeline-card'
+        );
 
-      if (!inner) return;
+      if (!card) return;
 
       if (rect.top <= trigger) {
 
-        inner.classList.add('active');
+        card.classList.add(
+          'active'
+        );
 
       } else {
 
-        inner.classList.remove('active');
+        card.classList.remove(
+          'active'
+        );
 
       }
 
     });
 
   }
+
+  /* =========================
+     OBSERVE ITEMS
+  ========================= */
+
+  function observeTimelineItems() {
+
+    const timelineItems =
+      document.querySelectorAll(
+        '.timeline-item'
+      );
+
+    timelineItems.forEach((item) => {
+
+      timelineObserver.observe(
+        item
+      );
+
+    });
+
+  }
+
+  /* =========================
+     LOOP
+  ========================= */
 
   function loop() {
 
@@ -99,22 +145,30 @@ window.timelineModule = (() => {
 
   }
 
+  /* =========================
+     INIT
+  ========================= */
+
   function init() {
 
     timeline =
-      document.querySelector('.timeline');
+      document.querySelector(
+        '.timeline'
+      );
 
     progress =
-      document.querySelector('.timeline-progress');
+      document.querySelector(
+        '.timeline-progress'
+      );
 
-    if (progress) {
-      progress.style.transform =
-        'translateX(-50%) scaleY(0)';
+    if (!timeline || !progress) {
+      return;
     }
 
-    timelineItems.forEach((item) => {
-      timelineObserver.observe(item);
-    });
+    progress.style.transform =
+      'translateX(-50%) scaleY(0)';
+
+    observeTimelineItems();
 
     loop();
 
